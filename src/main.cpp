@@ -26,16 +26,15 @@ int main() {
     };
     // or just use preset
     model = rmagine::vlp16_900();
-    // model = rmagine::example_spherical();
 
 
     // prepare poses
-    rmagine::Memory<rmagine::Transform, rmagine::RAM> poses(100);
+    rmagine::Memory<rmagine::Transform, rmagine::RAM> poses(1000);
     for(size_t i = 0; i < poses.size(); i++) {
-        rmagine::Transform T = rmagine::Transform::Identity();
-        T.t = {0.0, 3.0, 0.0};
-        rmagine::EulerAngles e = {0.0, 0.1f*float(i), 0.0};
-        T.R.set(e); // euler internally converted to quaternion
+        rmagine::Transform T;
+        T.t = {-10.0, 3.0, 0.0}; // start at the back, slightly above ground
+        T.t.x += float(i)*0.02f; // move forward
+        T.R.set({0.0f, 0.1f*float(i), 0.0f}); // spin around like a maniac
         poses[i] = T;
     }
 
